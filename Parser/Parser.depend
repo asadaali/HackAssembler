@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1487424696 source:d:\codeblocks_projects\hackassembler\parser.cpp
+	<iostream>
+	<fstream>
+	<string>
+	"Parser.h"
+
+1487422920 d:\codeblocks_projects\hackassembler\parser.h
+	<iostream>
+	<fstream>
+
+1487516989 source:d:\codeblocks_projects\parser\parser.cpp
+	<iostream>
+	<fstream>
+	<string>
+	"Parser.h"
+	"Translator.h"
+
+1487504498 d:\codeblocks_projects\parser\parser.h
+	<iostream>
+	<fstream>
+
+1487505054 source:d:\codeblocks_projects\parser\translator.cpp
+	<iostream>
+	<sstream>
+	<stdio.h>
+	"Translator.h"
+
+1487500933 d:\codeblocks_projects\parser\translator.h
+	<iostream>
+	"TranslatorDictionary.h"
+
+1487441625 d:\codeblocks_projects\parser\translatordictionary.h
+	<iostream>
+
+1487497461 source:d:\codeblocks_projects\parser\translatordictionary.cpp
+	<iostream>
+	"TranslatorDictionary.h"
+
