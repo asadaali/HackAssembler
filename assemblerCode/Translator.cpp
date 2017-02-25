@@ -5,7 +5,7 @@
 
 using namespace std;
 
-
+int Translator::addr_counter = 16;
 
     Translator::Translator(){
 
@@ -102,38 +102,43 @@ using namespace std;
         d = new data();
         d->sybmol="M";
         d->address = 1;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
 
         d = new data();
         d->sybmol="D";
         d->address = 2;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
 
         d = new data();
         d->sybmol="MD";
         d->address = 3;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
 
         d = new data();
         d->sybmol="A";
         d->address = 4;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
 
 
         d = new data();
         d->sybmol="AM";
         d->address = 5;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
 
         d = new data();
         d->sybmol="AD";
         d->address = 6;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
 
         d = new data();
         d->sybmol="AMD";
         d->address = 7;
-        this->symbl_tbl.addSybmol(d);
+        this->symbl_tbl_dest.addSybmol(d);
+
+        d = new data();
+        d->sybmol="M";
+        d->address = 1;
+        this->symbl_tbl_dest.addSybmol(d);
 
         //initializing cmp table
         /************************ a = 0**********************************************/        d = new data();
@@ -303,15 +308,33 @@ using namespace std;
         d->sybmol="D|M";
         d->address = 85;
         this->symbl_tbl.addSybmol(d);
+
+//        symbl_address_tracker = 16;
     }
 
+    int Translator::CInstructionType(string cmd)
+    {
+        if(cmd.find("=")!=string::npos && cmd.find(";")!=string::npos){
 
-    string Translator::covertToBinary(int n)
+            return  TYPE_1;
+        }
+
+        if(cmd.find(";")!=string::npos){
+            return  TYPE_2;
+
+        }
+        if(cmd.find("=")!=string::npos){
+
+            return  TYPE_3;
+        }
+
+    }
+    string Translator::covertToBinary(int n, int num_of_bits)
     {
 
-        int bin[7];
+        int * bin = new int[num_of_bits];
         int count = 0;
-        for(int j = 0 ; j < 7; j ++)
+        for(int j = 0 ; j < num_of_bits; j ++)
             bin[j]=0;
 
         int remainder, i = 1, step = 1;
@@ -325,7 +348,7 @@ using namespace std;
 
         }
         ostringstream machineCode;
-        for(int i = 6 ; i >=0 ; i--)
+        for(int i = num_of_bits-1 ; i >=0 ; i--)
             machineCode <<bin[i];
 
 
@@ -336,27 +359,33 @@ using namespace std;
   void Translator::translateSymbols(string cmd){
 
       /**The instruction is of A-type*/
+      string str;
       if(cmd[0]=='@'){
 
-           string str;
+
         /**removing @ from the command to check for symbol*/
         for( int i = 1 ; cmd[i]!='\0' ; i++)
                 str += cmd[i];
 
 
-      }
+
       int ret = this->symbl_tbl.lookupForAddress(str);
 
       if(ret>=0)
-        return ret;
-      else
-        //this->symbl_tbl.addSybmol()
+        {
+            cout<<"\nSymbol found\n";
+        }else{
+            data * d = new data();
+            d->sybmol = str;
+          d->address = Translator::addr_counter;
+          Translator::addr_counter++;
 
+        }
 
-
-
-
-  }
+      }
+      else{
+      }
+    }
 
   void Translator::translateCommand(string cmd){
 
@@ -373,11 +402,123 @@ using namespace std;
         s_str >> num;
 
 
-        Translator::covertToBinary(num);
-
+        string out = this->covertToBinary(num, 16);
+        cout<<out<<"\n";
+      }
         /**C type instruction*/
-      }else{
+        /**Binary: 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3*/
+      else{
 
+            string comp = "";
+            string dest = "";
+            string jmp = "";
+            string res = "111";
+            /**type 1 dest = comp; jmp*/
+            if(this->CInstructionType(cmd) == TYPE_1){
+
+                   cout<<"type_1"<<"\n";
+                    int i,j= 0;
+               for(i = 0 ; cmd[i]!= '=' ; i++)
+                    dest+=cmd[i];
+
+                int ret = this->symbl_tbl_dest.lookupForAddress(dest);
+
+                if( ret >=0)
+                        dest= this->covertToBinary(ret, 3);
+
+
+                 for(j = i+1 ; cmd[j]!= ';' ; j++)
+                    comp+=cmd[j];
+
+                 i = j;
+
+                ret = this->symbl_tbl.lookupForAddress(comp);
+                if( ret >=0)
+                        comp = this->covertToBinary(ret, 7);
+
+                for(int k =  j + 1 ; cmd[k]!= '\0' ; k++){
+                    jmp+=cmd[k];
+                }
+
+                 ret = this->symbl_tbl.lookupForAddress(jmp);
+                if( ret >=0)
+                       jmp= this->covertToBinary(ret, 3);
+
+                    res += comp;
+                    res += dest;
+                    res += jmp;
+
+                cout<<res<<"\n";
+
+            }
+            /**comp;jmp*/
+            if(this->CInstructionType(cmd) == TYPE_2){
+
+
+                string comp = "";
+                string jmp = "";
+                string res = "111";
+                int i = 0 ;
+                for(i= 0 ; cmd[i]!=';'; i++)
+                  comp+=cmd[i];
+
+                int ret = symbl_tbl.lookupForAddress(comp);
+                if(ret>=0)
+                    comp=this->covertToBinary(ret,7);
+                for(int j = i+1; cmd[j]!='\0'; j++)
+                    jmp += cmd[j];
+
+                 ret = symbl_tbl.lookupForAddress(jmp);
+                if(ret>=0)
+                    jmp=this->covertToBinary(ret,3);
+
+
+                res +=comp;
+                res+="000";
+                res += jmp;
+            cout<< res<<"\n";
+
+            }
+
+            /**dest= comp*/
+            if(this->CInstructionType(cmd)==TYPE_3)
+            {
+
+                string cmp = "";
+                string dest = "";
+                string res = "111";
+                int i = 0 ;
+                for(i= 0 ; cmd[i]!= '='; i++){
+                  dest+=cmd[i];
+
+                }
+
+                int  ret =  symbl_tbl_dest.lookupForAddress(dest);
+
+                if(ret>=0)
+                    dest=this->covertToBinary(ret,3);
+                for(int j = i+1; cmd[j]!='\0'; j++)
+                    cmp += cmd[j];
+
+                 ret = symbl_tbl.lookupForAddress(cmp);
+
+                if(ret>=0)
+                    cmp=this->covertToBinary(ret,7);
+
+
+                res+=cmp;
+                res+=dest;
+                res+="000";
+
+
+                cout<< res<<"\n";
+
+
+
+
+
+
+            }
 
 
 

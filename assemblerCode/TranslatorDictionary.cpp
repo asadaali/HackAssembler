@@ -43,11 +43,14 @@
 
         while(temp!=NULL)
         {
+
             if(!symbol.compare(temp->val->sybmol)){
+
 
                 return temp->val->address;
 
             }
+
             temp = temp->next;
         }
         cout<<"error : symbol - " << symbol << "not found\n";
