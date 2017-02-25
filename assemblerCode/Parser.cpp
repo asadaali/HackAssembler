@@ -105,18 +105,24 @@
 
       //  cout<<p.parseOut;
         Translator t;
-       // int in = t.symbl_tbl.lookupForAddress("A-D");
-       // cout << in<<"\n" ;
-       // cout<<t.covertToBinary(in,7)<<"\n";
+        string res;
+        ofstream f_write;
+        string new_line = "\n";
+        f_write.open("out.hack");
 
 
-       // t.translateCommand("@4");cout<<"\n";
-       // t.translateCommand("M=D");
        for(string line; getline(p.fileRead, line);){
         //  if the next line is  not a white space nor a comment ;
-        if(!line.empty() && p.isCommand(line))
-            t.translateCommand(line);
+        if(!line.empty() && p.isCommand(line)){
+            t.translateCommand(line, res);
+
+            f_write << res << "\n";
+        }
+           // f_write.write(res.c_str(),res.length());
+           // f_write.write(new_line.c_str(),new_line.length());
+
       }
+
 
 
 

@@ -387,7 +387,7 @@ int Translator::addr_counter = 16;
       }
     }
 
-  void Translator::translateCommand(string cmd){
+  void Translator::translateCommand(string cmd, string &res){
 
          /**This is an A-type instruction*/
       if(cmd[0]=='@'){
@@ -402,8 +402,9 @@ int Translator::addr_counter = 16;
         s_str >> num;
 
 
-        string out = this->covertToBinary(num, 16);
-        cout<<out<<"\n";
+        res = this->covertToBinary(num, 16);
+        cout<<res<<"\n";
+
       }
         /**C type instruction*/
         /**Binary: 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3*/
@@ -412,11 +413,10 @@ int Translator::addr_counter = 16;
             string comp = "";
             string dest = "";
             string jmp = "";
-            string res = "111";
+            res = "111";
             /**type 1 dest = comp; jmp*/
             if(this->CInstructionType(cmd) == TYPE_1){
 
-                   cout<<"type_1"<<"\n";
                     int i,j= 0;
                for(i = 0 ; cmd[i]!= '=' ; i++)
                     dest+=cmd[i];
@@ -457,7 +457,7 @@ int Translator::addr_counter = 16;
 
                 string comp = "";
                 string jmp = "";
-                string res = "111";
+                res = "111";
                 int i = 0 ;
                 for(i= 0 ; cmd[i]!=';'; i++)
                   comp+=cmd[i];
@@ -486,7 +486,7 @@ int Translator::addr_counter = 16;
 
                 string cmp = "";
                 string dest = "";
-                string res = "111";
+                res = "111";
                 int i = 0 ;
                 for(i= 0 ; cmd[i]!= '='; i++){
                   dest+=cmd[i];
