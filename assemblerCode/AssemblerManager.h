@@ -5,7 +5,7 @@
 using namespace std;
 
 
-class Parser
+class AssemblerManager
 {
 
 public:
@@ -14,13 +14,11 @@ public:
     string parseOut;
 
      /*Constructor*/
-    Parser();
+    AssemblerManager();
 
      /*opens the assembly file**/
     bool openFile();
 
-    /* heart of this class : parse the assembly file*/
-    void removeWhitespaces();
 
      /*Closes the file*/
     void closeFile();

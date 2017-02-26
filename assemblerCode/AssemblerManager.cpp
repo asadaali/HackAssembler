@@ -2,14 +2,14 @@
     #include<iostream>
     #include<fstream>
     #include<string>
-    #include"Parser.h"
+    #include"AssemblerManager.h"
     #include"Translator.h"
 
     using namespace std;
 
 
     // This function will tell wether the given line of file a command or white space
-    Parser::Parser()
+    AssemblerManager::AssemblerManager()
     {
         //fileRead = NULL;
         //fname = NULL;
@@ -18,45 +18,8 @@
 
     }
 
-    void Parser::removeWhitespaces()
-    {
 
-        // read file per line
-
-        //output screen
-        // looping through the whole file
-       for(string line; getline(this->fileRead, line);){
-        //  if the next line is  not a white space nor a comment ;
-        if(!line.empty() && this->isCommand(line))
-        {
-            //this is the start since output string is empty
-            if(this->parseOut.empty())
-            {
-                this->parseOut = line;
-                this->parseOut += "\n";
-
-
-            }
-            else
-            {
-                this->parseOut += line;
-                this->parseOut +="\n";
-                // cout<<"line :"<<line<<"\n";
-
-            }
-
-        }
-
-       }
-
-
-
-    }
-
-
-
-
-    bool Parser :: openFile()
+    bool AssemblerManager :: openFile()
     {
         this->fileRead.open(this->fname);
         if(this->fileRead.is_open())
@@ -71,14 +34,14 @@
     }
 
 
-    void Parser :: closeFile()
+    void AssemblerManager :: closeFile()
     {
       this->fileRead.close();
 
 
     }
 
-    bool Parser::isCommand(string cmd){
+    bool AssemblerManager::isCommand(string cmd){
 
 
             if(!cmd.find("/")){
@@ -96,14 +59,10 @@
     {
 
 
-        Parser p;
+        AssemblerManager p;
         p.fname = "Add.asm";
         p.openFile();
 
-
-      //  p.removeWhitespaces();
-
-      //  cout<<p.parseOut;
         Translator t;
         string res;
         ofstream f_write;
@@ -118,8 +77,7 @@
 
             f_write << res << "\n";
         }
-           // f_write.write(res.c_str(),res.length());
-           // f_write.write(new_line.c_str(),new_line.length());
+
 
       }
 
