@@ -60,14 +60,14 @@
 
 
         AssemblerManager p;
-        p.fname = "Add.asm";
+        p.fname = "PongL.asm";
         p.openFile();
 
         Translator t;
         string res;
         ofstream f_write;
         string new_line = "\n";
-        f_write.open("out.hack");
+        f_write.open("out_pong_1.hack");
 
 
        for(string line; getline(p.fileRead, line);){

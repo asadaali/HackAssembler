@@ -141,19 +141,11 @@ int Translator::addr_counter = 16;
         this->symbl_tbl_dest.addSybmol(d);
 
         //initializing cmp table
-        /************************ a = 0**********************************************/        d = new data();
-        d->sybmol="0";
-        d->address = 34;
-        this->symbl_tbl.addSybmol(d);
+        /************************ a = 0**********************************************/
 
         d = new data();
         d->sybmol="0";
-        d->address = 34;
-        this->symbl_tbl.addSybmol(d);
-
-        d = new data();
-        d->sybmol="0";
-        d->address = 34;
+        d->address = 42;
         this->symbl_tbl.addSybmol(d);
 
         d = new data();

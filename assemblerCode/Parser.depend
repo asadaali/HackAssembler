@@ -59,9 +59,20 @@
 	<iostream>
 	"TranslatorDictionary.h"
 
-1488043641 source:d:\git\hackassembler\assemblercode\translator.cpp
+1488118255 source:d:\git\hackassembler\assemblercode\translator.cpp
 	<iostream>
 	<sstream>
 	<stdio.h>
 	"Translator.h"
+
+1488110175 source:d:\git\hackassembler\assemblercode\assemblermanager.cpp
+	<iostream>
+	<fstream>
+	<string>
+	"AssemblerManager.h"
+	"Translator.h"
+
+1488045816 d:\git\hackassembler\assemblercode\assemblermanager.h
+	<iostream>
+	<fstream>
 
