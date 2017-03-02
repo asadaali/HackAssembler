@@ -37,8 +37,9 @@ int Translator::addr_counter = 16;
 
         for(int i = 0 ; i < 16 ; i++){
             d = new data();
-            d->sybmol ="R" ;
-            d->sybmol += i;
+            ostringstream ss;
+            ss<<"R"<<i;
+            d->sybmol= ss.str();
             d->address  = i ;
             this->symbl_tbl.addSybmol(d);
         }
@@ -352,6 +353,7 @@ int Translator::addr_counter = 16;
 
       /**The instruction is of A-type*/
       string str;
+
       if(cmd[0]=='@'){
 
 
@@ -363,12 +365,15 @@ int Translator::addr_counter = 16;
 
       int ret = this->symbl_tbl.lookupForAddress(str);
 
-      if(ret>=0)
+
+    if(ret>=0)
         {
-            cout<<"\nSymbol found\n";
+
         }else{
             data * d = new data();
             d->sybmol = str;
+
+            this->symbl_tbl.addSybmol(d);
           d->address = Translator::addr_counter;
           Translator::addr_counter++;
 
@@ -376,13 +381,50 @@ int Translator::addr_counter = 16;
 
       }
       else{
+         // cout<<"do nothing to this command\n";
       }
     }
 
-  void Translator::translateCommand(string cmd, string &res){
+
+
+  string  Translator::trimSpaces(string cmd){
+
+        string trimCmd;
+      for(int i = 0 ; cmd[i]!='\0'; i++){
+
+      if(isspace(cmd[i]))
+           continue;
+      else
+        trimCmd += cmd[i];
+
+
+      }
+
+        return trimCmd;
+
+
+  }
+
+  string Translator::trimAfterCommandComments(string cmd){
+
+      string command;
+
+     for(int i = 0 ; i < cmd.length(); i ++)
+        {
+          if(cmd[i] == '/')
+                break;
+            else
+            command += cmd[i];
+        }
+
+        return command;
+
+     }
+
+    void Translator::translateCommand(string cmd, string &res){
 
          /**This is an A-type instruction*/
-      if(cmd[0]=='@'){
+      if(cmd.at(0)=='@'){
             string str;
         /**removing @ from the command to have its machine  code*/
         for( int i = 1 ; cmd[i]!='\0' ; i++)
@@ -390,18 +432,21 @@ int Translator::addr_counter = 16;
 
         /**converting this string to integer to convert it to machine code*/
         int num = 0;
-        stringstream s_str(str);
-        s_str >> num;
 
 
-        res = this->covertToBinary(num, 16);
-        cout<<res<<"\n";
+            num = this->symbl_tbl.lookupForAddress(str);
+            res = this->covertToBinary(num, 16);
+            cout<<res<<"\n";
 
-      }
+
+
+
+        }
+
+
         /**C type instruction*/
         /**Binary: 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3*/
       else{
-
             string comp = "";
             string dest = "";
             string jmp = "";
@@ -419,7 +464,7 @@ int Translator::addr_counter = 16;
                         dest= this->covertToBinary(ret, 3);
 
 
-                 for(j = i+1 ; cmd[j]!= ';' ; j++)
+                for(j = i+1 ; cmd[j]!= ';' ; j++)
                     comp+=cmd[j];
 
                  i = j;
@@ -454,13 +499,20 @@ int Translator::addr_counter = 16;
                 for(i= 0 ; cmd[i]!=';'; i++)
                   comp+=cmd[i];
 
+
+
                 int ret = symbl_tbl.lookupForAddress(comp);
                 if(ret>=0)
                     comp=this->covertToBinary(ret,7);
+
+
                 for(int j = i+1; cmd[j]!='\0'; j++)
                     jmp += cmd[j];
 
-                 ret = symbl_tbl.lookupForAddress(jmp);
+
+
+                 ret = this->symbl_tbl.lookupForAddress(jmp);
+                // cout<<ret;
                 if(ret>=0)
                     jmp=this->covertToBinary(ret,3);
 
@@ -489,10 +541,12 @@ int Translator::addr_counter = 16;
 
                 if(ret>=0)
                     dest=this->covertToBinary(ret,3);
+
                 for(int j = i+1; cmd[j]!='\0'; j++)
                     cmp += cmd[j];
 
-                 ret = symbl_tbl.lookupForAddress(cmp);
+
+                 ret = this->symbl_tbl.lookupForAddress(cmp);
 
                 if(ret>=0)
                     cmp=this->covertToBinary(ret,7);

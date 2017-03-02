@@ -1,0 +1,6 @@
+Bugs in Hack Assembler Release 1.0 :
+
+- Dont cater for spaces atall.
+- need to add comments in front of commands 
+-cater backward and forward spaces of a command 
+-implement string space trimming

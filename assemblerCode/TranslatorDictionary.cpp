@@ -41,9 +41,9 @@
 
     node * temp  = first;
 
-        while(temp!=NULL)
+        while(temp->next!=NULL)
         {
-
+           // cout<<"Symbol : "<<symbol<<":"<<temp->val->sybmol<<"\n";
             if(!symbol.compare(temp->val->sybmol)){
 
 
@@ -53,7 +53,7 @@
 
             temp = temp->next;
         }
-        cout<<"error : symbol - " << symbol << "not found\n";
+
 
         return -1;
     }

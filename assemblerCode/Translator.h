@@ -19,6 +19,8 @@ class Translator{
     static int addr_counter;
     Translator();
     bool isCommand(string cmd);
+    string trimSpaces(string cmd);
+    string trimAfterCommandComments(string cmd);
     void translateCommand(string cmd, string &res);
     void translateSymbols(string cmd);
     void writetoHackFile();

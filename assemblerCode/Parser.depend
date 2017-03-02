@@ -48,24 +48,24 @@
 	<iostream>
 	<fstream>
 
-1488043649 d:\git\hackassembler\assemblercode\translator.h
+1488477663 d:\git\hackassembler\assemblercode\translator.h
 	<iostream>
 	"TranslatorDictionary.h"
 
 1487441625 d:\git\hackassembler\assemblercode\translatordictionary.h
 	<iostream>
 
-1488039799 source:d:\git\hackassembler\assemblercode\translatordictionary.cpp
+1488306531 source:d:\git\hackassembler\assemblercode\translatordictionary.cpp
 	<iostream>
 	"TranslatorDictionary.h"
 
-1488118255 source:d:\git\hackassembler\assemblercode\translator.cpp
+1488485526 source:d:\git\hackassembler\assemblercode\translator.cpp
 	<iostream>
 	<sstream>
 	<stdio.h>
 	"Translator.h"
 
-1488110175 source:d:\git\hackassembler\assemblercode\assemblermanager.cpp
+1488485500 source:d:\git\hackassembler\assemblercode\assemblermanager.cpp
 	<iostream>
 	<fstream>
 	<string>

@@ -7,7 +7,8 @@
 
     using namespace std;
 
-
+    /**macro used for debugging*/
+    #define INFO(x) cout<<"\n"<<__BASE_FILE__<<__LINE__<<"\n"<<x<<"\n";
     // This function will tell wether the given line of file a command or white space
     AssemblerManager::AssemblerManager()
     {
@@ -60,22 +61,32 @@
 
 
         AssemblerManager p;
-        p.fname = "PongL.asm";
+        p.fname = "Max.asm";
         p.openFile();
 
         Translator t;
         string res;
         ofstream f_write;
         string new_line = "\n";
-        f_write.open("out_pong_1.hack");
+        f_write.open("out_"+p.fname +".hack");
 
 
        for(string line; getline(p.fileRead, line);){
         //  if the next line is  not a white space nor a comment ;
         if(!line.empty() && p.isCommand(line)){
+
+            // removing extra spaces
+
+            line = t.trimSpaces(line);
+
+            line = t.trimAfterCommandComments(line);
+
+            t.translateSymbols(line);
+
             t.translateCommand(line, res);
 
-            f_write << res << "\n";
+
+           f_write << res << "\n";
         }
 
 
