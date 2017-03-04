@@ -6,6 +6,7 @@
 using namespace std;
 
 int Translator::addr_counter = 16;
+int Translator::instr_counter = 0;
 
     Translator::Translator(){
 
@@ -348,7 +349,22 @@ int Translator::addr_counter = 16;
         return machineCode.str();
     }
 
+  void Translator::translateLabels(string label){
 
+    if(this->symbl_tbl.lookupForAddress(label) >=0)
+    {
+            //do nothing
+    }else{
+
+        data *d = new data();
+        d->sybmol=label;
+        d->address=Translator::instr_counter;
+        this->symbl_tbl.addSybmol(d);
+
+    }
+
+
+  }
   void Translator::translateSymbols(string cmd){
 
       /**The instruction is of A-type*/
@@ -372,17 +388,17 @@ int Translator::addr_counter = 16;
         }else{
             data * d = new data();
             d->sybmol = str;
-
+            d->address = Translator::addr_counter;
             this->symbl_tbl.addSybmol(d);
-          d->address = Translator::addr_counter;
+
           Translator::addr_counter++;
 
         }
 
       }
-      else{
-         // cout<<"do nothing to this command\n";
-      }
+
+
+
     }
 
 
@@ -441,12 +457,21 @@ int Translator::addr_counter = 16;
 
 
 
-        }
-
 
         /**C type instruction*/
         /**Binary: 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3*/
-      else{
+     }else if(cmd[0]=='('){
+
+            int num = this->symbl_tbl.lookupForAddress(cmd.substr(1, cmd.length()-2));
+            res = this->covertToBinary(num, 16);
+            cout<<res<<"\n";
+
+
+
+
+    }else{
+
+
             string comp = "";
             string dest = "";
             string jmp = "";
@@ -558,11 +583,6 @@ int Translator::addr_counter = 16;
 
 
                 cout<< res<<"\n";
-
-
-
-
-
 
             }
 

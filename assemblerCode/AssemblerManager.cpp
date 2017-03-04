@@ -68,11 +68,46 @@
         string res;
         ofstream f_write;
         string new_line = "\n";
-        f_write.open("out_"+p.fname +".hack");
+        f_write.open("out.hack");
 
 
+
+        /********************First_PASS*******************/
        for(string line; getline(p.fileRead, line);){
         //  if the next line is  not a white space nor a comment ;
+        if(!line.empty() && p.isCommand(line)){
+
+
+                // FINDING ALL THE LABELS
+                if(line[0]=='(')
+                {
+                  line= line.substr(1,line.length()-2);
+
+                  t.translateLabels(line);
+                }
+                  Translator::instr_counter++;
+
+
+
+
+        }
+
+
+
+
+       }
+
+
+       //clearing the pointer and pushing it back to the start of the file
+        p.fileRead.clear();
+        p.fileRead.seekg(0, ios::beg);
+
+
+
+        /********************Second_PASS*******************/
+       for(string line; getline(p.fileRead, line);){
+        //  if the next line is  not a white space nor a comment ;
+
         if(!line.empty() && p.isCommand(line)){
 
             // removing extra spaces
@@ -84,6 +119,10 @@
             t.translateSymbols(line);
 
             t.translateCommand(line, res);
+
+
+
+            //INFO(res);
 
 
            f_write << res << "\n";

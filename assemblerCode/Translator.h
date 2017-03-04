@@ -17,15 +17,19 @@ class Translator{
     TranslatorDictionary symbl_tbl;
     TranslatorDictionary symbl_tbl_dest;
     static int addr_counter;
+    static int instr_counter;
     Translator();
     bool isCommand(string cmd);
     string trimSpaces(string cmd);
     string trimAfterCommandComments(string cmd);
     void translateCommand(string cmd, string &res);
+    void addLabel(string label);
     void translateSymbols(string cmd);
     void writetoHackFile();
     int CInstructionType(string cmd);
+    void translateLabels(string cmd);
     string covertToBinary(int num , int num_of_bits);
+
 
 
 };
