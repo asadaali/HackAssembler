@@ -361,6 +361,7 @@ int Translator::instr_counter = 0;
         d->address=Translator::instr_counter;
         this->symbl_tbl.addSybmol(d);
 
+
     }
 
 
@@ -397,8 +398,6 @@ int Translator::instr_counter = 0;
 
       }
 
-
-
     }
 
 
@@ -421,7 +420,12 @@ int Translator::instr_counter = 0;
 
   }
 
-  string Translator::trimAfterCommandComments(string cmd){
+    bool Translator::isOnlydigits(std::string &str)
+    {
+        return str.find_first_not_of("0123456789") == std::string::npos;
+    }
+
+  string Translator::trimTrailingComments(string cmd){
 
       string command;
 
@@ -449,11 +453,21 @@ int Translator::instr_counter = 0;
         /**converting this string to integer to convert it to machine code*/
         int num = 0;
 
-
+            if(!this->isOnlydigits(str)){
             num = this->symbl_tbl.lookupForAddress(str);
+
             res = this->covertToBinary(num, 16);
             cout<<res<<"\n";
+            }
+            else{
+             stringstream convert (str);
+             convert>>num;
+             res = this->covertToBinary(num, 16);
+             cout<<res<<"\n";
 
+
+
+            }
 
 
 
@@ -462,10 +476,8 @@ int Translator::instr_counter = 0;
         /**Binary: 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3*/
      }else if(cmd[0]=='('){
 
-            int num = this->symbl_tbl.lookupForAddress(cmd.substr(1, cmd.length()-2));
-            res = this->covertToBinary(num, 16);
-            cout<<res<<"\n";
-
+           /***do nothing we don't need to add this command**/
+           res="SKIP";
 
 
 

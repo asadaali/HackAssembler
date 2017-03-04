@@ -21,7 +21,7 @@ class Translator{
     Translator();
     bool isCommand(string cmd);
     string trimSpaces(string cmd);
-    string trimAfterCommandComments(string cmd);
+    string trimTrailingComments(string cmd);
     void translateCommand(string cmd, string &res);
     void addLabel(string label);
     void translateSymbols(string cmd);
@@ -29,7 +29,7 @@ class Translator{
     int CInstructionType(string cmd);
     void translateLabels(string cmd);
     string covertToBinary(int num , int num_of_bits);
-
+    bool isOnlydigits(string &cmd);
 
 
 };

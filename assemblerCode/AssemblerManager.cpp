@@ -61,14 +61,14 @@
 
 
         AssemblerManager p;
-        p.fname = "Max.asm";
+        p.fname = "Rect.asm";
         p.openFile();
 
         Translator t;
         string res;
         ofstream f_write;
         string new_line = "\n";
-        f_write.open("out.hack");
+        f_write.open("out_"+p.fname+".hack");
 
 
 
@@ -81,12 +81,13 @@
                 // FINDING ALL THE LABELS
                 if(line[0]=='(')
                 {
+
                   line= line.substr(1,line.length()-2);
 
                   t.translateLabels(line);
-                }
+                }else{
                   Translator::instr_counter++;
-
+                }
 
 
 
@@ -111,10 +112,10 @@
         if(!line.empty() && p.isCommand(line)){
 
             // removing extra spaces
-
+            //INFO(line);
             line = t.trimSpaces(line);
 
-            line = t.trimAfterCommandComments(line);
+            line = t.trimTrailingComments(line);
 
             t.translateSymbols(line);
 
@@ -122,9 +123,9 @@
 
 
 
-            //INFO(res);
 
 
+        if(res.compare("SKIP"))
            f_write << res << "\n";
         }
 
