@@ -58,8 +58,6 @@
     }
     int main(char * agrv[] , int argc)
     {
-
-
         AssemblerManager p;
         p.fname = "Rect.asm";
         p.openFile();
@@ -125,7 +123,7 @@
 
 
 
-        if(res.compare("SKIP"))
+        if(!res.empty())
            f_write << res << "\n";
         }
 

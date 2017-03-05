@@ -419,7 +419,7 @@ int Translator::instr_counter = 0;
 
 
   }
-
+    // check if the string only contains digits
     bool Translator::isOnlydigits(std::string &str)
     {
         return str.find_first_not_of("0123456789") == std::string::npos;
@@ -477,7 +477,7 @@ int Translator::instr_counter = 0;
      }else if(cmd[0]=='('){
 
            /***do nothing we don't need to add this command**/
-           res="SKIP";
+           res="";
 
 
 
