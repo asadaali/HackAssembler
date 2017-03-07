@@ -368,9 +368,9 @@ int Translator::instr_counter = 0;
   }
   void Translator::translateSymbols(string cmd){
 
-      /**The instruction is of A-type*/
-      string str;
 
+          string str;
+      /**The instruction is of A-type*/
       if(cmd[0]=='@'){
 
 
@@ -458,8 +458,7 @@ int Translator::instr_counter = 0;
 
             res = this->covertToBinary(num, 16);
             cout<<res<<"\n";
-            }
-            else{
+            }else{
              stringstream convert (str);
              convert>>num;
              res = this->covertToBinary(num, 16);
@@ -468,22 +467,13 @@ int Translator::instr_counter = 0;
 
 
             }
-
-
-
-
         /**C type instruction*/
         /**Binary: 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3*/
      }else if(cmd[0]=='('){
 
            /***do nothing we don't need to add this command**/
            res="";
-
-
-
     }else{
-
-
             string comp = "";
             string dest = "";
             string jmp = "";
@@ -597,12 +587,5 @@ int Translator::instr_counter = 0;
                 cout<< res<<"\n";
 
             }
-
-
-
       }
-
-
-
-
   }

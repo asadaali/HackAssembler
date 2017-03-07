@@ -56,10 +56,18 @@
 
 
     }
-    int main(char * agrv[] , int argc)
+    int main(int argc, char *agrv[])
     {
+
+        if(argc<=1)
+        {
+
+                cout<<"Please specify the .asm file name\n";
+                return 0;
+
+        }
         AssemblerManager p;
-        p.fname = "Rect.asm";
+        p.fname = agrv[1];//"Rect.asm";
         p.openFile();
 
         Translator t;
@@ -86,22 +94,13 @@
                 }else{
                   Translator::instr_counter++;
                 }
-
-
-
         }
 
-
-
-
        }
-
 
        //clearing the pointer and pushing it back to the start of the file
         p.fileRead.clear();
         p.fileRead.seekg(0, ios::beg);
-
-
 
         /********************Second_PASS*******************/
        for(string line; getline(p.fileRead, line);){
@@ -119,19 +118,11 @@
 
             t.translateCommand(line, res);
 
-
-
-
-
         if(!res.empty())
            f_write << res << "\n";
         }
 
 
       }
-
-
-
-
 
     }
